@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09F2A1D304E06A5930D597C1 /* FamilySync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D66646E1F042666DA2DCCEC /* FamilySync.swift */; };
 		0F48558FFAEDEE490FF164AE /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4FA8DFAD0405AAF2B64AF2E /* DashboardView.swift */; };
 		305AB6875A3303D8B003AD04 /* AlertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28EC52EF14B003991A37B78 /* AlertsView.swift */; };
 		320F97957BD31F19771F3A17 /* NextUpWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19005240CB4D81879AED37 /* NextUpWidgetBundle.swift */; };
@@ -63,7 +64,7 @@
 		23A12C6D0FE89A40D756DA33 /* ActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesView.swift; sourceTree = "<group>"; };
 		25D2CA0B2D91A2A64D343E81 /* SharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStore.swift; sourceTree = "<group>"; };
 		28044358A922FBB52C0630D7 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-		2922471F452EDE14ADC5504D /* FamilySchedule.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = FamilySchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2922471F452EDE14ADC5504D /* FamilySchedule.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FamilySchedule.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		313888762EABD796D7DE78DF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3224505D8AC8D4EF523DE000 /* FamilySchedule.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FamilySchedule.entitlements; sourceTree = "<group>"; };
 		3BECEEAD1DB4CEC3DA14350F /* FamilyScheduleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyScheduleApp.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		633198B40D3299D5A883AC12 /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		657AAF3F16A2B267DE1BA8ED /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		750A07E968A0D357ABC60DDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7D66646E1F042666DA2DCCEC /* FamilySync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilySync.swift; sourceTree = "<group>"; };
 		9E7E36A9D2BD33623E768A1A /* NextUpWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextUpWidget.swift; sourceTree = "<group>"; };
 		AA8A4A5064D7448572794F54 /* FamilyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyHeader.swift; sourceTree = "<group>"; };
 		B28EC52EF14B003991A37B78 /* AlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				AA8A4A5064D7448572794F54 /* FamilyHeader.swift */,
 				3224505D8AC8D4EF523DE000 /* FamilySchedule.entitlements */,
 				3BECEEAD1DB4CEC3DA14350F /* FamilyScheduleApp.swift */,
+				7D66646E1F042666DA2DCCEC /* FamilySync.swift */,
 				D872F46F9EF3578DD1A991CB /* Info.plist */,
 				C3BA8DD91BA15B9939CCD225 /* MemberEditView.swift */,
 				657AAF3F16A2B267DE1BA8ED /* NotificationScheduler.swift */,
@@ -197,7 +200,6 @@
 						ProvisioningStyle = Automatic;
 					};
 					CE7231736D95DDAC351F8075 = {
-						DevelopmentTeam = 6PJ2K6XJ8C;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -245,6 +247,7 @@
 				0F48558FFAEDEE490FF164AE /* DashboardView.swift in Sources */,
 				EFFC25E9E1F80993923771B2 /* FamilyHeader.swift in Sources */,
 				8E360C1BA49A45AA5A5F06EF /* FamilyScheduleApp.swift in Sources */,
+				09F2A1D304E06A5930D597C1 /* FamilySync.swift in Sources */,
 				3F26446BABFFD9DC5886D2EB /* MemberEditView.swift in Sources */,
 				8D477FC280CFD31B0957F11E /* Models.swift in Sources */,
 				F85A744D2EFE960AF6EC5D89 /* NotificationScheduler.swift in Sources */,
@@ -285,6 +288,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FamilySchedule/FamilySchedule.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6PJ2K6XJ8C;
 				INFOPLIST_FILE = FamilySchedule/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -302,6 +306,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = FamilySchedule/FamilySchedule.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6PJ2K6XJ8C;
 				INFOPLIST_FILE = FamilySchedule/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

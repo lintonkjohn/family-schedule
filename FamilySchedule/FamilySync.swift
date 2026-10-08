@@ -60,8 +60,15 @@ final class FamilySync: ObservableObject {
             ensureUIDs()
             if !isParticipant { try await ensureZone() }
             let remote = try await fetchAll()
-            if remote.isEmpty && !isParticipant {
-                try await save(records(members: allMembers(), activities: allActivities()))
+            let localActivities = allActivities()
+            let remoteHasActivities = remote.contains { $0.recordType == "Activity" }
+            if !isParticipant && (remote.isEmpty || (!remoteHasActivities && !localActivities.isEmpty)) {
+                // Owner's first upload (or a previous upload only half-finished):
+                // make iCloud match this phone instead of wiping local activities.
+                let local = records(members: allMembers(), activities: localActivities)
+                let localIDs = Set(local.map(\.recordID))
+                let stale = remote.map(\.recordID).filter { !localIDs.contains($0) }
+                try await save(local, deleting: stale)
             } else {
                 apply(remote)
             }
@@ -237,7 +244,9 @@ final class FamilySync: ObservableObject {
             r["weekOrdinal"] = a.weekOrdinal
             r["anchorDate"] = a.anchorDate
             r["driveMinutes"] = a.driveMinutes
-            r["skippedDays"] = a.skippedDays
+            // Stored as one comma-separated string: CloudKit rejects empty lists
+            // for a new field, which made Activity uploads fail.
+            r["skippedDays"] = a.skippedDays.joined(separator: ",")
             r["memberUID"] = a.member?.uid ?? ""
             r["rules"] = rulesJSON(a)
             out.append(r)
@@ -314,7 +323,8 @@ final class FamilySync: ObservableObject {
             a.weekOrdinal = r["weekOrdinal"] as? Int ?? 1
             a.anchorDate = r["anchorDate"] as? Date ?? .now
             a.driveMinutes = r["driveMinutes"] as? Int ?? 0
-            a.skippedDays = r["skippedDays"] as? [String] ?? []
+            let skipped = r["skippedDays"] as? String ?? ""
+            a.skippedDays = skipped.split(separator: ",").map(String.init)
             let memberUID = r["memberUID"] as? String ?? ""
             a.member = memberUID.isEmpty ? nil : memberByUID[memberUID]
 

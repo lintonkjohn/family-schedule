@@ -9,7 +9,12 @@ enum SharedStore {
 
     static let container: ModelContainer = {
         let schema = Schema([Member.self, Activity.self, AlertRule.self])
-        let config = ModelConfiguration(schema: schema, groupContainer: .identifier(appGroup))
+        // cloudKitDatabase: .none — we sync ourselves in FamilySync.swift.
+        // Without this, SwiftData sees the iCloud entitlement and tries its own
+        // CloudKit mirroring, which fails for this schema and crashes on launch.
+        let config = ModelConfiguration(schema: schema,
+                                        groupContainer: .identifier(appGroup),
+                                        cloudKitDatabase: .none)
         do {
             return try ModelContainer(for: schema, configurations: config)
         } catch {
