@@ -85,6 +85,11 @@ extension Activity {
             let c = cal.dateComponents([.weekday, .day], from: day)
             guard let wd = c.weekday, let dom = c.day else { return false }
             return wd == weekday && ((dom - 1) / 7 + 1) == weekOrdinal
+        case .yearly:
+            guard day >= anchorDay else { return false }
+            let a = cal.dateComponents([.month, .day], from: anchorDay)
+            let c = cal.dateComponents([.month, .day], from: day)
+            return a.month == c.month && a.day == c.day
         }
     }
 
@@ -110,6 +115,9 @@ extension Activity {
         case .monthlyNthWeekday:
             let ord = ["", "1st", "2nd", "3rd", "4th", "5th"][min(max(weekOrdinal, 0), 5)]
             return "\(ord) \(dayName) monthly \(time)\(tz)"
+        case .yearly:
+            let md = anchorDate.formatted(.dateTime.month(.abbreviated).day())
+            return "Every year \(md) \(time)\(tz)"
         }
     }
 }

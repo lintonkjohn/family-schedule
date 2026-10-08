@@ -22,6 +22,37 @@ enum SeedData {
     static func seedIfNeeded(_ context: ModelContext) {
         seedStarterSchedule(context)
         addStandardAlertsOnce(context)
+        addPropertyTaxOnce(context)
+    }
+
+    /// Yearly reminder: property tax payment every October 10.
+    @MainActor
+    static func addPropertyTaxOnce(_ context: ModelContext) {
+        let key = "propertyTaxV1"
+        guard !UserDefaults.standard.bool(forKey: key) else { return }
+
+        let members = (try? context.fetch(FetchDescriptor<Member>())) ?? []
+        let linton: Member
+        if let existing = members.first(where: { $0.name == "Linton" }) {
+            linton = existing
+        } else {
+            linton = Member(name: "Linton", colorHex: "#16A34A")
+            context.insert(linton)
+        }
+
+        let tax = Activity(name: "Property Tax Payment", location: "Alameda County Treasurer",
+                           notes: "Pay property tax installment", colorHex: "#DC2626",
+                           timeZoneID: pt, startHour: 9, durationMinutes: 30,
+                           repeatKind: .yearly, anchorDate: day(2026, 10, 10, pt))
+        context.insert(tax)
+        tax.member = linton
+        for (offset, message) in [(10080, "Property tax in 1 week"), (1440, "Tomorrow"), (120, "In 2 hours")] {
+            let r = AlertRule(offsetMinutes: offset, message: message)
+            context.insert(r)
+            r.activity = tax
+        }
+        try? context.save()
+        UserDefaults.standard.set(true, forKey: key)
     }
 
     @MainActor

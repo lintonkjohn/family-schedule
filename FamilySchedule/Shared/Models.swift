@@ -21,6 +21,7 @@ final class Member {
 enum RepeatKind: String, Codable, CaseIterable {
     case weekly              // every N weeks, on the weekday of `anchorDate`
     case monthlyNthWeekday   // e.g. first Wednesday of each month
+    case yearly              // same month/day as `anchorDate`, every year
 }
 
 @Model
