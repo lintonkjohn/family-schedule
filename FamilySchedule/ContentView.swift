@@ -18,10 +18,14 @@ struct ContentView: View {
             SeedData.seedIfNeeded(context)
             _ = await NotificationScheduler.requestPermission()
             await NotificationScheduler.reschedule(context: context)
+            await FamilySync.shared.sync()
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active {
-                Task { await NotificationScheduler.reschedule(context: context) }
+                Task {
+                    await NotificationScheduler.reschedule(context: context)
+                    await FamilySync.shared.sync()
+                }
             }
         }
     }

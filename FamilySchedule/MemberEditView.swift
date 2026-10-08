@@ -83,8 +83,11 @@ struct MemberEditView: View {
             }
             .confirmationDialog("Delete \(member.name)?", isPresented: $confirmDelete, titleVisibility: .visible) {
                 Button("Delete", role: .destructive) {
+                    let uid = member.uid
+                    let acts = member.activities
                     context.delete(member)
                     try? context.save()
+                    FamilySync.shared.delete(uids: [uid], thenPush: acts)
                     dismiss()
                 }
             }
@@ -96,6 +99,7 @@ struct MemberEditView: View {
         member.colorHex = colorHex
         member.photoData = photoData
         try? context.save()
+        FamilySync.shared.push(member: member)
         Task { await NotificationScheduler.reschedule(context: context) }
         dismiss()
     }

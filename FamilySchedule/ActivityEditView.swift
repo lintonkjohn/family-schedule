@@ -276,13 +276,16 @@ struct ActivityEditView: View {
         }
 
         try? context.save()
+        FamilySync.shared.push(activity: a)
         Task { await NotificationScheduler.reschedule(context: context) }
         dismiss()
     }
 
     private func deleteActivity() {
+        let uid = activity?.uid ?? ""
         if let activity { context.delete(activity) }
         try? context.save()
+        FamilySync.shared.delete(uids: [uid])
         Task { await NotificationScheduler.reschedule(context: context) }
         dismiss()
     }

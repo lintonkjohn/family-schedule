@@ -180,6 +180,7 @@ struct DashboardView: View {
         guard let act = activity(for: o) else { return }
         act.skippedDays.append(Activity.dayKey(o.start, cal: act.calendar))
         try? context.save()
+        FamilySync.shared.push(activity: act)
         Task { await NotificationScheduler.reschedule(context: context) }
     }
 

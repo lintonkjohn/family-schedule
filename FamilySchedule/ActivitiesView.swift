@@ -10,10 +10,35 @@ struct ActivitiesView: View {
     @State private var showingAddPerson = false
     @State private var newPersonName = ""
     @State private var editingMember: Member?
+    @ObservedObject private var sync = FamilySync.shared
 
     var body: some View {
         NavigationStack {
             List {
+                Section {
+                    HStack(spacing: 12) {
+                        Image(systemName: sync.isParticipant ? "person.2.fill" : "icloud.fill")
+                            .font(.title2)
+                            .foregroundStyle(.blue)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(sync.isParticipant ? "Shared by \(sync.ownerDisplayName ?? "family")" : "Family sharing")
+                                .font(.headline)
+                            Text(syncStatusText).font(.caption).foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        if sync.isSyncing { ProgressView() }
+                    }
+                    if !sync.isParticipant {
+                        Button("Invite family…", systemImage: "person.badge.plus") {
+                            Task { await sync.presentShareSheet() }
+                        }
+                    }
+                    Button("Sync now", systemImage: "arrow.triangle.2.circlepath") {
+                        Task { await sync.sync() }
+                    }
+                    .disabled(sync.isSyncing)
+                }
+
                 if !members.isEmpty {
                     Section("People") {
                         ForEach(members) { m in
@@ -62,6 +87,7 @@ struct ActivitiesView: View {
                     }
                 }
             }
+            .refreshable { await sync.sync() }
             .navigationTitle("Activities")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -84,9 +110,16 @@ struct ActivitiesView: View {
         }
     }
 
+    private var syncStatusText: String {
+        guard let last = sync.lastSync else { return sync.status }
+        return "\(sync.status) · \(last.formatted(.relative(presentation: .named)))"
+    }
+
     private func delete(_ list: [Activity], at offsets: IndexSet) {
+        let uids = offsets.map { list[$0].uid }
         for i in offsets { context.delete(list[i]) }
         try? context.save()
+        FamilySync.shared.delete(uids: uids)
         Task { await NotificationScheduler.reschedule(context: context) }
     }
 
@@ -95,8 +128,10 @@ struct ActivitiesView: View {
         newPersonName = ""
         guard !name.isEmpty else { return }
         let color = ActivityDraft.palette[members.count % ActivityDraft.palette.count]
-        context.insert(Member(name: name, colorHex: color))
+        let member = Member(name: name, colorHex: color)
+        context.insert(member)
         try? context.save()
+        FamilySync.shared.push(member: member)
     }
 }
 

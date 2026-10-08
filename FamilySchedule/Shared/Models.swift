@@ -5,6 +5,8 @@ import SwiftData
 
 @Model
 final class Member {
+    /// Stable ID used for iCloud sync.
+    var uid: String = ""
     var name: String
     var colorHex: String
     /// Small avatar JPEG (stored outside the database file).
@@ -13,6 +15,7 @@ final class Member {
     var activities: [Activity] = []
 
     init(name: String, colorHex: String) {
+        self.uid = UUID().uuidString
         self.name = name
         self.colorHex = colorHex
     }
@@ -26,6 +29,8 @@ enum RepeatKind: String, Codable, CaseIterable {
 
 @Model
 final class Activity {
+    /// Stable ID used for iCloud sync.
+    var uid: String = ""
     var name: String
     var location: String
     var notes: String
@@ -71,6 +76,7 @@ final class Activity {
          weekOrdinal: Int = 1,
          anchorDate: Date,
          driveMinutes: Int = 0) {
+        self.uid = UUID().uuidString
         self.name = name
         self.location = location
         self.notes = notes

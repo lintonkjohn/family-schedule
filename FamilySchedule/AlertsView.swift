@@ -39,7 +39,10 @@ struct AlertsView: View {
                     ForEach(activities) { act in
                         DisclosureGroup {
                             ForEach(act.alertRules.sorted { $0.offsetMinutes > $1.offsetMinutes }) { rule in
-                                RuleRow(rule: rule, onChange: reschedule)
+                                RuleRow(rule: rule, onChange: {
+                                    reschedule()
+                                    FamilySync.shared.push(activity: act)
+                                })
                             }
                         } label: {
                             VStack(alignment: .leading) {
