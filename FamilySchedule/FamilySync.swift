@@ -87,6 +87,12 @@ final class FamilySync: ObservableObject {
         pushInBackground(recs, deleting: [])
     }
 
+    /// Uploads several people and activities in one go (used by CSV import).
+    func push(members: [Member], activities: [Activity]) {
+        let recs = records(members: members, activities: activities)
+        pushInBackground(recs, deleting: [])
+    }
+
     func push(member: Member) {
         let recs = records(members: [member], activities: member.activities)
         pushInBackground(recs, deleting: [])

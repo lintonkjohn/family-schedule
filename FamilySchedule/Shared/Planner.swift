@@ -90,6 +90,8 @@ extension Activity {
             let a = cal.dateComponents([.month, .day], from: anchorDay)
             let c = cal.dateComponents([.month, .day], from: day)
             return a.month == c.month && a.day == c.day
+        case .once:
+            return cal.isDate(day, inSameDayAs: anchorDay)
         }
     }
 
@@ -118,6 +120,9 @@ extension Activity {
         case .yearly:
             let md = anchorDate.formatted(.dateTime.month(.abbreviated).day())
             return "Every year \(md) \(time)\(tz)"
+        case .once:
+            let date = anchorDate.formatted(.dateTime.weekday(.abbreviated).month(.abbreviated).day().year())
+            return "\(date) \(time)\(tz)"
         }
     }
 }

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
 struct ActivitiesView: View {
     @Environment(\.modelContext) private var context
@@ -8,6 +9,8 @@ struct ActivitiesView: View {
     @State private var editing: Activity?
     @State private var showingNew = false
     @State private var showingAddPerson = false
+    @State private var showingImporter = false
+    @State private var importSummary: String?
     @State private var newPersonName = ""
     @State private var editingMember: Member?
     @ObservedObject private var sync = FamilySync.shared
@@ -94,10 +97,22 @@ struct ActivitiesView: View {
                     Menu {
                         Button("New activity", systemImage: "calendar.badge.plus") { showingNew = true }
                         Button("New person", systemImage: "person.badge.plus") { showingAddPerson = true }
+                        Divider()
+                        Button("Import CSV…", systemImage: "square.and.arrow.down") { showingImporter = true }
                     } label: {
                         Image(systemName: "plus")
                     }
                 }
+            }
+            .fileImporter(isPresented: $showingImporter,
+                          allowedContentTypes: [.commaSeparatedText, .plainText, .text]) { result in
+                importCSV(result)
+            }
+            .alert("CSV import", isPresented: Binding(get: { importSummary != nil },
+                                                     set: { if !$0 { importSummary = nil } })) {
+                Button("OK", role: .cancel) { importSummary = nil }
+            } message: {
+                Text(importSummary ?? "")
             }
             .sheet(isPresented: $showingNew) { ActivityEditView(activity: nil) }
             .sheet(item: $editing) { ActivityEditView(activity: $0) }
@@ -107,6 +122,23 @@ struct ActivitiesView: View {
                 Button("Add") { addPerson() }
                 Button("Cancel", role: .cancel) { newPersonName = "" }
             }
+        }
+    }
+
+    private func importCSV(_ result: Result<URL, Error>) {
+        switch result {
+        case .failure(let error):
+            importSummary = "Couldn't open the file: \(error.localizedDescription)"
+        case .success(let url):
+            let access = url.startAccessingSecurityScopedResource()
+            defer { if access { url.stopAccessingSecurityScopedResource() } }
+            guard let data = try? Data(contentsOf: url),
+                  let text = String(data: data, encoding: .utf8) ?? String(data: data, encoding: .isoLatin1) else {
+                importSummary = "Couldn't read the file."
+                return
+            }
+            importSummary = CSVImporter.importCSV(text, context: context).summary
+            Task { await NotificationScheduler.reschedule(context: context) }
         }
     }
 

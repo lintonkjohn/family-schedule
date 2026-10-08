@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 enum RepeatChoice: String, CaseIterable, Identifiable {
-    case weekly, everyTwoWeeks, monthly, yearly
+    case once, weekly, everyTwoWeeks, monthly, yearly
     var id: String { rawValue }
     var label: String {
         switch self {
@@ -10,6 +10,7 @@ enum RepeatChoice: String, CaseIterable, Identifiable {
         case .everyTwoWeeks: return "Every 2 weeks"
         case .monthly: return "Monthly (e.g. 1st Wed)"
         case .yearly: return "Every year"
+        case .once: return "One time"
         }
     }
 }
@@ -62,6 +63,7 @@ struct ActivityDraft {
         switch a.repeatKind {
         case .monthlyNthWeekday: repeatChoice = .monthly
         case .yearly: repeatChoice = .yearly
+        case .once: repeatChoice = .once
         case .weekly: repeatChoice = a.intervalWeeks > 1 ? .everyTwoWeeks : .weekly
         }
         weekday = a.weekday
@@ -177,7 +179,7 @@ struct ActivityEditView: View {
                         DatePicker("First date", selection: dateBinding, displayedComponents: .date)
                     }
                     DatePicker("Start time", selection: timeBinding, displayedComponents: .hourAndMinute)
-                    Stepper("Duration: \(durationText)", value: $d.durationMinutes, in: 15...720, step: 15)
+                    Stepper("Duration: \(durationText)", value: $d.durationMinutes, in: 15...4320, step: 15)
                     Picker("Time zone", selection: $d.timeZoneID) {
                         ForEach(timeZoneIDs, id: \.self) { id in
                             Text(TimeZone(identifier: id)?.localizedName(for: .generic, locale: .current) ?? id).tag(id)
@@ -188,7 +190,9 @@ struct ActivityEditView: View {
                 } header: {
                     Text("When")
                 } footer: {
-                    if d.repeatChoice == .yearly {
+                    if d.repeatChoice == .once {
+                        Text("One-time event. Drive time sets the \"Leave by\" time.")
+                    } else if d.repeatChoice == .yearly {
                         Text("Repeats every year on \(dateBinding.wrappedValue.formatted(.dateTime.month(.wide).day())).")
                     } else if d.repeatChoice != .monthly {
                         Text("Repeats on \(weekdayName)s. Drive time sets the \"Leave by\" time.")
@@ -259,6 +263,7 @@ struct ActivityEditView: View {
         switch d.repeatChoice {
         case .monthly: a.repeatKind = .monthlyNthWeekday
         case .yearly: a.repeatKind = .yearly
+        case .once: a.repeatKind = .once
         default: a.repeatKind = .weekly
         }
         a.intervalWeeks = d.repeatChoice == .everyTwoWeeks ? 2 : 1
