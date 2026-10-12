@@ -13,6 +13,7 @@
 		320F97957BD31F19771F3A17 /* NextUpWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F19005240CB4D81879AED37 /* NextUpWidgetBundle.swift */; };
 		3F26446BABFFD9DC5886D2EB /* MemberEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3BA8DD91BA15B9939CCD225 /* MemberEditView.swift */; };
 		42863E765365A7EB21FE8DF7 /* NextUpWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E7E36A9D2BD33623E768A1A /* NextUpWidget.swift */; };
+		5034CA8D383E88A06B646BE4 /* CSVImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8490306CFEC63AEECCF117F9 /* CSVImporter.swift */; };
 		598E9D972887B7CCAC86E23A /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28044358A922FBB52C0630D7 /* Models.swift */; };
 		69492D584CD1CBD57C72A132 /* NextUpWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = C0FA9F50228F61C08056DD4F /* NextUpWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7B9F2365EFF16E1ABEB587AA /* ActivityEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC8588522F7970D876EFA06 /* ActivityEditView.swift */; };
@@ -73,6 +74,7 @@
 		657AAF3F16A2B267DE1BA8ED /* NotificationScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationScheduler.swift; sourceTree = "<group>"; };
 		750A07E968A0D357ABC60DDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7D66646E1F042666DA2DCCEC /* FamilySync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilySync.swift; sourceTree = "<group>"; };
+		8490306CFEC63AEECCF117F9 /* CSVImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVImporter.swift; sourceTree = "<group>"; };
 		9E7E36A9D2BD33623E768A1A /* NextUpWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextUpWidget.swift; sourceTree = "<group>"; };
 		AA8A4A5064D7448572794F54 /* FamilyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyHeader.swift; sourceTree = "<group>"; };
 		B28EC52EF14B003991A37B78 /* AlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertsView.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				B28EC52EF14B003991A37B78 /* AlertsView.swift */,
 				313888762EABD796D7DE78DF /* Assets.xcassets */,
 				1F23A14A627F49A0F82C906F /* ContentView.swift */,
+				8490306CFEC63AEECCF117F9 /* CSVImporter.swift */,
 				E4FA8DFAD0405AAF2B64AF2E /* DashboardView.swift */,
 				AA8A4A5064D7448572794F54 /* FamilyHeader.swift */,
 				3224505D8AC8D4EF523DE000 /* FamilySchedule.entitlements */,
@@ -244,6 +247,7 @@
 				C4B1EEC1CE15576BEC0C95AE /* ActivitiesView.swift in Sources */,
 				7B9F2365EFF16E1ABEB587AA /* ActivityEditView.swift in Sources */,
 				305AB6875A3303D8B003AD04 /* AlertsView.swift in Sources */,
+				5034CA8D383E88A06B646BE4 /* CSVImporter.swift in Sources */,
 				D025879C58C46F203BF62BD8 /* ContentView.swift in Sources */,
 				0F48558FFAEDEE490FF164AE /* DashboardView.swift in Sources */,
 				EFFC25E9E1F80993923771B2 /* FamilyHeader.swift in Sources */,
@@ -384,7 +388,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 6PJ2K6XJ8C;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -444,7 +448,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 6PJ2K6XJ8C;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
